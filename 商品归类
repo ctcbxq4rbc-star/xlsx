@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第六类化工品归类学习工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a6dba, #0d4d8c);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: #f1f5f9;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e1e4e8;
+            font-weight: bold;
+            color: #0d4d8c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-body {
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f1f5f9;
+            font-weight: bold;
+            color: #0d4d8c;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        tr:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        button {
+            background: #1a6dba;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background: #0d4d8c;
+        }
+        
+        .download-btn {
+            background: #28a745;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        .error-row {
+            background-color: #ffe6e6 !important;
+        }
+        
+        .success-row {
+            background-color: #e6ffe6 !important;
+        }
+        
+        .highlight {
+            background-color: #fff8e1;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0d4d8c;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .tips {
+            background: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e1e4e8;
+        }
+        
+        @media (max-width: 768px) {
+            .section-body {
+                padding: 10px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>第六类化工品归类学习工具</h1>
+            <p class="subtitle">基于《编码查询手册》的归类规则与实操练习</p>
+        </header>
+        
+        <div class="content">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-label">归类商品总数</div>
+                    <div class="stat-value">21</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">归类准确率</div>
+                    <div class="stat-value">85%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">规则应用错误</div>
+                    <div class="stat-value">2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">条文遗漏数</div>
+                    <div class="stat-value">1</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="toggleErrors">显示/隐藏错误商品</button>
+                <button id="highlightMedical">高亮医用/危险品</button>
+                <button id="downloadBtn" class="download-btn">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M14 10v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4M6 7l2 2 2-2M8 9V1"/>
+                    </svg>
+                    下载Excel表格
+                </button>
+            </div>
+            
+            <div class="tips">
+                <strong>归类技巧总结：</strong>
+                1. 单独化学定义产品快速判定——先看"纯度+是否单一成分"，直接锁定28-29章。<br>
+                2. 混合产品归类优先级——用途＞成分占比＞加工工艺（如消毒功能优先于清洁功能）。<br>
+                3. 特殊属性商品（医用/危险）——先核对专属章注或目录，再匹配品目。
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <span>阶段二：单独化学定义产品归类</span>
+                </div>
+                <div class="section-body">
+                    <table id="table1">
+                        <thead>
+                            <tr>
+                                <th>商品编号</th>
+                                <th>商品描述</th>
+                                <th>最终编码</th>
+                                <th>归类依据</th>
+                                <th>关键判定特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>纯度99.5%的无水乙醇（液态，20升/桶）</td>
+                                <td>2905.1100</td>
+                                <td>类注一；品目2905</td>
+                                <td>纯度99.5%，单一成分，液态</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>工业级纯氯化钠（食盐原料，无添加）</td>
+                                <td>2501.0010</td>
+                                <td>类注一；品目2501</td>
+                                <td>纯氯化钠，无添加</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>纯甲醛溶液（浓度37%，未添加其他成分）</td>
+                                <td>2912.1100</td>
+                                <td>类注一；品目2912</td>
+                                <td>浓度37%，未添加其他成分</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>结晶状纯葡萄糖（化学纯，供工业使用）</td>
+                                <td>1702.3000</td>
+                                <td>类注一；品目1702</td>
+                                <td>结晶状，化学纯，工业用</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>纯氢氧化钾（固体，纯度98%）</td>
+                                <td>2815.2000</td>
+                                <td>类注一；品目2815</td>
+                                <td>固体，纯度98%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <span>阶段二：混合配制功能型产品归类</span>
+                </div>
+                <div class="section-body">
+                    <table id="table2">
+                        <thead>
+                            <tr>
+                                <th>商品编号</th>
+                                <th>商品描述</th>
+                                <th>最终编码</th>
+                                <th>归类依据</th>
+                                <th>关键判定特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>6</td>
+                                <td>含表面活性剂40%的衣物洗涤剂（液态，非零售包装）</td>
+                                <td>3402.9000</td>
+                                <td>类注二；品目3402</td>
+                                <td>清洁用途，表面活性剂含量高</td>
+                            </tr>
+                            <tr class="error-row">
+                                <td>7</td>
+                                <td>含颜料30%、树脂20%的水性乳胶漆</td>
+                                <td>3209.1000</td>
+                                <td>32章章注二；品目3209</td>
+                                <td>涂装用途，水性乳胶漆</td>
+                            </tr>
+                            <tr class="error-row">
+                                <td>8</td>
+                                <td>含维生素C 10%的护肤乳液</td>
+                                <td>3304.9900</td>
+                                <td>33章章注；品目3304</td>
+                                <td>护肤用途，非医用</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>含氮46%的尿素肥料（颗粒状，零售包装）</td>
+                                <td>3102.1000</td>
+                                <td>31章章注；品目3102</td>
+                                <td>施肥用途，零售包装</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>含炸药成分的烟花爆竹引线</td>
+                                <td>3603.0010</td>
+                                <td>36章章注；品目3603</td>
+                                <td>爆破用途，引线</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <span>阶段二：医用/危险化工品归类</span>
+                </div>
+                <div class="section-body">
+                    <table id="table3">
+                        <thead>
+                            <tr>
+                                <th>商品编号</th>
+                                <th>商品描述</th>
+                                <th>最终编码</th>
+                                <th>归类依据</th>
+                                <th>关键判定特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="medical">
+                                <td>11</td>
+                                <td>医用碘伏（含碘1%，供消毒使用）</td>
+                                <td>3004.1090</td>
+                                <td>30章章注一(四)；品目3004</td>
+                                <td>医用消毒，含碘</td>
+                            </tr>
+                            <tr class="error-row dangerous">
+                                <td>12</td>
+                                <td>工业用高锰酸钾（危险化学品，固体）</td>
+                                <td>2841.6100</td>
+                                <td>品目2841；《危险化学品目录》</td>
+                                <td>危险品，无机化学品</td>
+                            </tr>
+                            <tr class="medical">
+                                <td>13</td>
+                                <td>一次性使用医用酒精棉片（含乙醇70%）</td>
+                                <td>3005.9010</td>
+                                <td>30章章注一(六)；品目3005</td>
+                                <td>医用材料，含酒精</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>含尼泊金丙酯0.3%的化妆品防腐剂</td>
+                                <td>3307.9000</td>
+                                <td>33章章注；品目3307</td>
+                                <td>化妆品添加剂</td>
+                            </tr>
+                            <tr class="medical">
+                                <td>15</td>
+                                <td>含甲醛的医用消毒喷雾（非零售包装）</td>
+                                <td>3004.1090</td>
+                                <td>30章章注一(四)；品目3004</td>
+                                <td>医用消毒，含甲醛</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <span>阶段三：复杂场景归类</span>
+                </div>
+                <div class="section-body">
+                    <table id="table4">
+                        <thead>
+                            <tr>
+                                <th>商品编号</th>
+                                <th>商品描述</th>
+                                <th>最终编码</th>
+                                <th>归类依据</th>
+                                <th>关键判定特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>16</td>
+                                <td>含乙醇50%、表面活性剂30%、香精20%的消毒清洁剂（液态，非零售包装）</td>
+                                <td>3004.1090</td>
+                                <td>30章章注一(四)；品目3004；类注二</td>
+                                <td>消毒功能优先，乙醇含量高</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>零售成套家居清洁套装（含3瓶产品：含氯消毒剂500ml、表面活性剂清洁剂500ml、玻璃专用除垢剂500ml）</td>
+                                <td>3402.9000</td>
+                                <td>归类总规则三（二）；品目3402</td>
+                                <td>零售成套，功能互补，清洁为主要功能</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <span>错题分析表</span>
+                </div>
+                <div class="section-body">
+                    <table id="errorTable">
+                        <thead>
+                            <tr>
+                                <th>错误商品</th>
+                                <th>错误类型</th>
+                                <th>错误原因分析</th>
+                                <th>正确归类思路</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>商品7（乳胶漆）</td>
+                                <td>功能判定偏差</td>
+                                <td>误归入3208，未注意32章章注二</td>
+                                <td>32章章注二明确乳胶漆归3209，正确编码3209.1000</td>
+                            </tr>
+                            <tr>
+                                <td>商品8（护肤乳液）</td>
+                                <td>规则混淆</td>
+                                <td>误归入30章，未排除非医用</td>
+                                <td>30章章注一排除护肤用途，正确归3304.9900</td>
+                            </tr>
+                            <tr>
+                                <td>商品12（高锰酸钾）</td>
+                                <td>子目遗漏</td>
+                                <td>误归2841.6900，未精确子目</td>
+                                <td>品目2841子目2841.6100专指高锰酸钾</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>第六类化工品归类学习工具 &copy; 2023 | 基于《编码查询手册》</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleErrorsBtn = document.getElementById('toggleErrors');
+            const highlightMedicalBtn = document.getElementById('highlightMedical');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            let errorsVisible = true;
+            let medicalHighlighted = false;
+            
+            // 切换错误商品显示
+            toggleErrorsBtn.addEventListener('click', function() {
+                const errorRows = document.querySelectorAll('.error-row');
+                errorsVisible = !errorsVisible;
+                
+                errorRows.forEach(row => {
+                    row.style.display = errorsVisible ? '' : 'none';
+                });
+                
+                toggleErrorsBtn.textContent = errorsVisible ? '隐藏错误商品' : '显示错误商品';
+            });
+            
+            // 高亮医用/危险品
+            highlightMedicalBtn.addEventListener('click', function() {
+                const medicalRows = document.querySelectorAll('.medical, .dangerous');
+                medicalHighlighted = !medicalHighlighted;
+                
+                medicalRows.forEach(row => {
+                    if (medicalHighlighted) {
+                        row.classList.add('highlight');
+                    } else {
+                        row.classList.remove('highlight');
+                    }
+                });
+                
+                highlightMedicalBtn.textContent = medicalHighlighted ? 
+                    '取消高亮医用/危险品' : '高亮医用/危险品';
+            });
+            
+            // 下载Excel表格
+            downloadBtn.addEventListener('click', function() {
+                // 创建一个工作簿
+                const wb = XLSX.utils.book_new();
+                
+                // 获取所有表格数据
+                const tables = [
+                    {name: "单独化学定义产品", id: "table1"},
+                    {name: "混合配制功能型产品", id: "table2"},
+                    {name: "医用危险化工品", id: "table3"},
+                    {name: "复杂场景归类", id: "table4"},
+                    {name: "错题分析表", id: "errorTable"}
+                ];
+                
+                tables.forEach(tableInfo => {
+                    const table = document.getElementById(tableInfo.id);
+                    const ws = XLSX.utils.table_to_sheet(table);
+                    XLSX.utils.book_append_sheet(wb, ws, tableInfo.name);
+                });
+                
+                // 生成Excel文件并下载
+                XLSX.writeFile(wb, "第六类化工品归类学习工具.xlsx");
+            });
+        });
+    </script>
+    
+    <!-- 引入SheetJS库用于Excel导出 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</body>
+</html>
